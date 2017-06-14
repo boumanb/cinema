@@ -1,0 +1,112 @@
+﻿@model BioscoopB3Web.Models.MovieViewModel
+@using System.Linq
+
+@if (Model == null)
+{
+    <h1 class="text-center">Geen film gevonden</h1>
+    ViewBag.Title = "Geen film";
+}
+else
+{
+
+    ViewBag.Title = Model.Movie.Title;
+
+
+    <br />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                @if (Model.Movie.ImgUrl != "")
+                {
+                    <img src="@Model.Movie.ImgUrl" class="img-responsive" />
+                }
+                else
+                {
+                    <img src="http://drkeyurparmar.com/wp-content/uploads/2015/02/dummy-article-img-1.jpg" class="img-responsive" />
+                }
+            </div>
+            <div class="col-md-8">
+                <div class="well">
+                    <div class="row">
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="row">
+                                <div class="well col-md-12">
+                                    <p class="text-center" style="font-weight:bold; color: green;">@ViewBag.Success<p></p>
+                                </div>
+                            </div>
+                        }
+                        <h2 class="text-center">@Model.Movie.Title</h2>
+                        <div class="col-md-6">
+                            <p>
+                                Beschrijving: @Model.Movie.Description
+                            </p>
+                            <p>Hoofdrolspeler(s): @Model.Movie.Actor</p>
+                            <p>Regisseur(s): @Model.Movie.Director</p>
+                            <p>Genre: @Model.Movie.Genre</p>
+                            <p>Taal: @Model.Movie.Language</p>
+                            <p>Kijkwijzer leeftijd: @Model.Movie.Age</p>
+                            <br />
+                            <br />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <br/>
+                                @if (Model.Movie.Imdb != "")
+                                {
+                                    <div class="col-md-3">
+                                        <a href="@Model.Movie.Imdb"><img src="http://icons.iconarchive.com/icons/danleech/simple/1024/imdb-icon.png" alt="Naar IMDB" class="img-responsive" /></a>
+                                    </div>
+                                }
+                                @if (Model.Movie.Trailer != null)
+                                {
+                                    <div class="col-md-3">
+                                        <a href="@Model.Movie.Trailer"><img src="http://spreekbeurten.info/wp-content/uploads/2015/11/youtube_logo_nieuw.png" alt="Naar Trailer" class="img-responsive" /></a>
+                                    </div>
+                                }
+                                @if (Model.Movie.Site != null)
+                                {
+                                    <div class="col-md-3">
+                                        <a href="@Model.Movie.Site"><img src="http://parthrbhatt.com/images/web.gif?crc=149595695" alt="Naar website film" class="img-responsive" /></a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <b>Informatie Film:</b>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">                      
+                        <div class="col-md-6">
+                            <p>
+                                3D: @if (@Model.Movie.ThreeD == false)
+                                {
+                                    @:Nee
+                                    }
+                                else
+                                {
+                                    @:Ja
+                                    }
+                            </p>
+                            <p>
+                                Ondertiteling: @if (@Model.Movie.Subtitles == false)
+                                {
+                                    @:Nee
+                                               }
+                                else
+                                {
+                                    @:Ja
+                                               }
+                            </p>
+                            <p>Duur: @Model.Movie.Length minuten</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,49 @@
+﻿@model TouchUI.Models.PrintViewModel
+@{
+    ViewBag.Title = "Print";
+}
+
+<h2 class="text-center">Scan je code</h2>
+
+<div class="container-fluid">
+    <div class="text-center">
+        @using (Html.BeginForm("Print", "Print"))
+        {
+
+
+            <div class="form-group">
+                <label>Scan code</label>
+                @Html.TextBoxFor(x => x.PrintID, new { @class = "form-control", @id = "textbox" })
+            </div>
+            <div class="form-group">
+
+
+            </div>
+
+            <input style="display: none;" id="print" type="submit" value="Print tickets" />
+
+        }
+        <br/>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('#textbox').keyup(function () {
+        if (this.value.length == 9) {
+            $('#print').click();
+        }
+    });
+
+    $('#print').click(function () {
+                   
+        new Audio("https://www.freesound.org/people/zerolagtime/sounds/144418/download/144418__zerolagtime__store-scanner-beep.mp3").play();          //play corresponding audio
+    });
+
+    $("#textbox").focus();
+</script>
+
+
+
+
+

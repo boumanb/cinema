@@ -1,0 +1,14 @@
+﻿@model BioscoopB3.Domain.Entities.TicketInfo
+
+@{
+    ViewBag.Title = "Failed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Uw saldo is niet toereikend.</h2>
+<div class="text-center">
+    <div class="btn btn-primary">
+        <a href="@Url.Action("index", "Home")">Home</a>
+    </div>
+</div>
+

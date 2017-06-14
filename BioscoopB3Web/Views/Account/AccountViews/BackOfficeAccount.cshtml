@@ -1,0 +1,27 @@
+﻿
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Back-Office menu";
+}
+
+@{
+    string AccountMail = (string)(Session["AccountMail"]);
+    string AccountType = (string)(Session["AccountType"]);
+}
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_BackOfficeMenu")
+        </div>
+        <div class="well col-md-9">
+            <div class="row">
+                <div class="col-md-6">Account mail: @AccountMail</div>
+                <div class="col-md-6">Account type: Back-Office medewerker</div>
+            </div>
+        </div>
+    </div>
+</div>

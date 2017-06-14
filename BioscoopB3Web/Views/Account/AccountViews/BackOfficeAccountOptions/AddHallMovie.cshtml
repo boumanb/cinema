@@ -1,0 +1,288 @@
+﻿@model BioscoopB3Web.Models.AddHallMovieModel
+@using BioscoopB3Web.Domain.Entities
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Voorstelling toevoegen";
+}
+
+@{
+    string AccountMail = (string)(Session["AccountMail"]);
+    string AccountType = (string)(Session["AccountType"]);
+}
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_BackOfficeMenu")
+            @*<div class="well">
+                <p class="text-center bg-info" style="font-size: 20px;">
+                    Voorstelling info
+                </p>
+                <p id="moviename"></p>
+                <p id="hallnumber"></p>
+                <p id="datetime"></p>
+            </div>*@
+        </div>
+
+        <div class="col-md-9">
+            <div class="row">
+                <div class="well col-md-12">
+                    <div class="col-md-6">Account mail: @AccountMail</div>
+                    <div class="col-md-6">Account type: @AccountType</div>
+                </div>
+            </div>
+
+            @if (ViewBag.AddedHallmovie != null)
+            {
+            <div class="row">
+                <div class="well col-md-12">
+                    <p class="text-center" style="font-weight:bold; color: green;">@ViewBag.AddedHallmovie</p>
+                </div> 
+            </div>
+            }
+
+            @if (ViewBag.ExistingHallmovie != null)
+            {
+                <div class="row">
+                    <div class="well col-md-12">
+                        <p class="text-center" style="font-weight:bold; color: red;">@ViewBag.ExistingHallmovie<p></p>
+                    </div>
+                </div>
+            }
+
+            @if (ViewBag.RunTimeEnded != null)
+            {
+                <div class="row">
+                    <div class="well col-md-12">
+                        <p class="text-center" style="font-weight:bold; color: red;">@ViewBag.RunTimeEnded<p></p>
+                    </div>
+                </div>
+            }
+
+            @if (ViewBag.PlannedPast != null)
+            {
+                <div class="row">
+                    <div class="well col-md-12">
+                        <p class="text-center" style="font-weight:bold; color: red;">@ViewBag.PlannedPast<p></p>
+                    </div>
+                </div>
+            }
+
+            <link href="~/Content/InputValidation.css" rel="stylesheet" />
+            
+    @using (Html.BeginForm("AddHallMovie", "BackOfficeAccount", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-12 well">
+                <div class="row">
+
+                    @{
+                        if (Model.AllMovies != null)
+                        {
+                            List<SelectListItem> movieItems = new List<SelectListItem>();
+                            foreach (Movie Movie in Model.AllMovies) { movieItems.Add(new SelectListItem() { Text = Movie.Title.ToString(), Value = Movie.MovieID.ToString() }); };
+
+
+                            <div class="col-md-6">
+                                Film:
+                                @Html.DropDownListFor(m => m.MovieID, new List<SelectListItem>(movieItems), new { @id = "movieitem"})
+                            </div>
+                        }
+                    }
+
+
+                    @{
+                        if (Model.AllHalls != null)
+                        {
+                            List<SelectListItem> hallItems = new List<SelectListItem>();
+                            foreach (Hall Hall in Model.AllHalls) { var capacity = Hall.HallLayout.SeatsPerRow * Hall.HallLayout.Rows; hallItems.Add(new SelectListItem() { Text = "Zaal " + Hall.HallID.ToString() + ": Capaciteit " + capacity.ToString() + "", Value = Hall.HallID.ToString() }); };
+
+
+                            <div class="col-md-6">
+                                Zaal:
+                                @Html.DropDownListFor(m => m.HallID, new List<SelectListItem>(hallItems), new { @id = "hallitem" })
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="row">
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <div class='input-group date test' id='datetimepicker2'>
+                                <input type='text' id="begintime" class="form-control begintime" name="begintime" placeholder="Begintijd" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='col-md-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker3'>
+                                <input  type='text' id="endtime" class="form-control" name="endtime" placeholder="Eindtijd"  readOnly />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>                    
+                </div> 
+
+                <div class="text-center">
+                    <input class="btn btn-success btn-lg" type="submit" id="submitbutton" value="Voeg voorstelling toe" />
+                </div>
+                <div class="text-center">
+                    <div class="btn btn-success hidden" id="timebutton">Bereken eindtijd</div>
+                </div>                                             
+            </div>
+        </div>
+
+
+                    }
+            
+
+            <br />
+            <br />
+        </div>
+    </div>  
+
+        <div style="width: 100%;" id='calendar'></div>
+
+</div>
+<br />
+<link href="~/Content/fullcalendar.css" rel="stylesheet"/>
+@*<script src="~/Scripts/jquery-ui-1.8.11.js"></script>*@
+<script type="text/javascript" src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="~/Scripts/defiant.min.js"></script>
+<script src="~/Scripts/fullcalendar.js"></script>
+<script src="~/Scripts/locale/nl.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker2').datetimepicker({
+            locale: 'nl',
+            daysOfWeekDisabled: [0],
+            disabledHours: [1,2,3,4,5,6,7,8,9,10],
+            sideBySide: true,
+            
+        });
+        $("#datetimepicker2").on("dp.change", function (e) {
+            CalcEndTime('#timebutton')
+        });
+    });
+
+    document.getElementById("endtime").addEventListener("click", function(event){
+        event.preventDefault()
+    });
+
+    function CalcEndTime(element){
+        var movieTitle = $(element).parent().parent().find("#movieitem").find(":selected").text();
+        var movies = @Html.Raw(Json.Encode(Model.AllMovies));
+        var movie = JSON.search(movies,'//*[Title="' + movieTitle + '"]')
+
+        var begintime = $("#begintime").val();
+        
+        if(begintime == ""){
+            $("#endtime").val("Geen startdatum/tijd gekozen")
+        } else {
+
+            function toDate(str1) {
+                var dt1 = parseInt(str1.substring(0, 2));
+                var mon1 = parseInt(str1.substring(3, 5));
+                var yr1 = parseInt(str1.substring(6, 10));
+                var hr = parseInt(str1.substring(11, 13));
+                var m = parseInt(str1.substring(14, 16))
+                var date1 = new Date(yr1, mon1 - 1, dt1, hr, m);
+                return date1;
+            }
+
+
+            var mbegintime = moment(toDate(begintime));
+            var mendtime = mbegintime.add(movie[0].Length, "m");
+
+            $("#endtime").val(mendtime.format("DD-MM-YYYY HH:mm"));
+            $("#submitbutton").removeAttr("disabled");  
+        }
+
+    }
+
+    $('#movieitem').change(function() {
+        CalcEndTime('#timebutton');
+    });
+
+    
+
+    $('#timebutton').click(function () {
+        CalcEndTime(this);
+    });
+
+    	$(document).ready(function()
+    	{
+    	    CalcEndTime('#timebutton');
+
+			var hallmovies = @Html.Raw(Json.Encode(Model.AllHallMovies));
+			console.log(hallmovies);
+
+			var events = [];
+
+			for(var i = 0; i < hallmovies.length; i++) {
+			    var obj = hallmovies[i];
+
+			    function ToJavaScriptDate(value) {
+			        var pattern = /Date\(([^)]+)\)/;
+			        var results = pattern.exec(value);
+			        var dt = new Date(parseFloat(results[1]));
+			        return (dt);
+			    };
+
+                      var jsonObj = {
+			        title: obj.Movie.Title,
+			        start: ToJavaScriptDate(obj.DateTime),
+			        end: ToJavaScriptDate(obj.DateTimeEnd),
+			        hall: obj.HallID,
+			        textColor: 'black',
+			        allDay: false
+			        }
+			        events.push(jsonObj);
+			}
+			console.log(events);
+			var calendar = $('#calendar').fullCalendar(
+			{
+				header:
+				{
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay',					
+				},				
+				defaultView: 'agendaWeek',
+				editable: false,
+				events: events,        
+				hiddenDays: [0],
+				eventRender: function(event, element) {
+				    element.find('.fc-title').append("<br/> Zaal:" + event.hall);
+				} ,
+				eventAfterRender: function (event, element, view) {
+
+				    if (event.hall == 1) {
+
+				        element.css('background-color', '#FFB347');
+				    } else if (event.hall == 2) {
+
+				        element.css('background-color', '#77DD77');
+				    } else if (event.hall == 3) {
+
+				        element.css('background-color', '#AEC6CF');
+				    }
+				},
+                firstHour: 9,
+			});
+
+		});
+
+</script>
+

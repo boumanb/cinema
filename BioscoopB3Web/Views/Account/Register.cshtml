@@ -1,0 +1,48 @@
+﻿@model BioscoopB3Web.Models.CustomerRegistrationViewModel
+
+@{
+    ViewBag.Title = "Registreren";
+}
+<link href="~/Content/InputValidation.css" rel="stylesheet" />
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading panel-info text-center"><h1>Account aanmaken</h1></div>
+        <div class="panel-body">
+            @{ 
+                if(ViewBag.PasswordError != null)
+                {
+                    <div class="well">
+                        <p style="color: red;">@ViewBag.PasswordError</p>
+                    </div>
+                }
+            }
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary()
+                <div class="form-group">
+                    <label>Jouw email:</label>
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Jouw naam: </label>
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Wachtwoord: </label>
+                    @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @type = "password" })
+                </div>
+                <div class="form-group">
+                    <label>Wachtwoord verificatie: </label>
+                    @Html.TextBoxFor(x => x.PasswordCheck, new { @class = "form-control", @type = "password" })
+                </div>
+
+                <div class="text-center">
+                    <input class="btn btn-info" type="submit" value="Verzend" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+

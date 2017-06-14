@@ -1,0 +1,269 @@
+﻿@model TouchUI.Models.HallMovieViewModel
+@using System.Linq
+
+@if (Model == null)
+{
+    <h1 class="text-center">Geen film gevonden</h1>
+}
+else
+{
+
+    ViewBag.Title = @Model.HallMovie.Movie.Title;
+    <br />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                @if (Model.HallMovie.Movie.ImgUrl != "")
+                {
+                    <img src="@Model.HallMovie.Movie.ImgUrl" class="img-responsive" />
+                }
+                else
+                {
+                    <img src="http://drkeyurparmar.com/wp-content/uploads/2015/02/dummy-article-img-1.jpg" class="img-responsive" />
+                }
+            </div>
+            <div class="col-md-8">
+                <div class="well">
+                    <div class="row">
+                        <h2 class="text-center">@Model.HallMovie.Movie.Title</h2>
+                        @if (Model.HallMovie.LadiesNight == true)
+                        {
+                            <h4 class="text-center" ="color: red;"> Ladies night</h4>
+                        }
+                        <div class="col-md-6">
+                            <p>
+                                Beschrijving: @Model.HallMovie.Movie.Description
+                            </p>
+                            <p>Hoofdrolspeler(s): @Model.HallMovie.Movie.Actor</p>
+                            <p>Regisseur(s): @Model.HallMovie.Movie.Director</p>
+                            <p>Genre: @Model.HallMovie.Movie.Genre</p>
+                            <p>Taal: @Model.HallMovie.Movie.Language</p>
+                            <p>Kijkwijzer leeftijd: @Model.HallMovie.Movie.Age</p>
+                            <br />
+                            <br />
+                        </div>
+                        <div class="col-md-6">
+                            <p>Verwachte draaitijd tot: @Model.HallMovie.Movie.RunTime.ToString("D")</p>
+                            <div class="row">
+                                <br />
+                                <div class="col-md-3">
+                                    <a href="@Model.HallMovie.Movie.Imdb"><img src="http://icons.iconarchive.com/icons/danleech/simple/1024/imdb-icon.png" alt="Naar IMDB" class="img-responsive" /></a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="@Model.HallMovie.Movie.Trailer"><img src="http://spreekbeurten.info/wp-content/uploads/2015/11/youtube_logo_nieuw.png" alt="Naar Trailer" class="img-responsive" /></a>
+                                </div>
+                                @if (Model.HallMovie.Movie.Site != "")
+                                {
+                                    <div class="col-md-3">
+                                        <a href="@Model.HallMovie.Movie.Site"><img src="http://parthrbhatt.com/images/web.gif?crc=149595695" alt="Naar website film" class="img-responsive" /></a>
+                                    </div>
+                                }
+                            </div>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <b>Informatie Film:</b>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Datum: @Model.HallMovie.DateTime.ToString("D")</p>
+                            <p>Tijd: @Model.HallMovie.DateTime.ToString("HH:mm")</p>
+                            <p>Zaal: @Model.HallMovie.HallID</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Aantal vrije plaatsen: @ViewBag.FreeSeats</p>
+                            <p>
+                                3D: @if (@Model.HallMovie.Movie.ThreeD == false)
+                                {
+                                    @:Nee
+                                    }
+                                else
+                                {
+                                    @:Ja
+                                    }
+                            </p>
+                            <p>
+                                Ondertiteling: @if (@Model.HallMovie.Movie.Subtitles == false)
+                                {
+                                    @:Nee
+                                               }
+                                else
+                                {
+                                    @:Ja
+                                               }
+                            </p>
+                            <p>Duur: @Model.HallMovie.Movie.Length minuten</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <h4 class="text-center" style="color: red;">@ViewBag.ticketAmountError</h4>
+
+                    @using (Html.BeginForm())
+                    {
+                        if (Model.HallMovie.LadiesNight == true)
+                        {
+
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Aantal</th>
+                                </tr>
+                                <tr>
+                                    <td>Ladies night</td>
+                                    <td>
+                                        @Html.DropDownListFor(x => x.order.NormalTickets, new[]
+                   {
+                                        new SelectListItem() {Text = "0", Value = "0"},
+                                        new SelectListItem() {Text = "1", Value = "1"},
+                                        new SelectListItem() {Text = "2", Value = "2"},
+                                        new SelectListItem() {Text = "3", Value = "3"},
+                                        new SelectListItem() {Text = "4", Value = "4"},
+                                        new SelectListItem() {Text = "5", Value = "5"},
+                                        new SelectListItem() {Text = "6", Value = "6"},
+                                        new SelectListItem() {Text = "7", Value = "7"},
+                                        new SelectListItem() {Text = "8", Value = "8"},
+                                        new SelectListItem() {Text = "9", Value = "9"},
+
+                                    })
+                                    </td>
+                                </tr>
+                            </table>
+
+                        }
+                        else
+                        {
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Aantal</th>
+                                </tr>
+                                <tr>
+                                    <td>Standaard</td>
+                                    <td>
+                                        @Html.DropDownListFor(x => x.order.NormalTickets, new[]
+{
+                                        new SelectListItem() {Text = "0", Value = "0"},
+                                        new SelectListItem() {Text = "1", Value = "1"},
+                                        new SelectListItem() {Text = "2", Value = "2"},
+                                        new SelectListItem() {Text = "3", Value = "3"},
+                                        new SelectListItem() {Text = "4", Value = "4"},
+                                        new SelectListItem() {Text = "5", Value = "5"},
+                                        new SelectListItem() {Text = "6", Value = "6"},
+                                        new SelectListItem() {Text = "7", Value = "7"},
+                                        new SelectListItem() {Text = "8", Value = "8"},
+                                        new SelectListItem() {Text = "9", Value = "9"},
+
+                                    })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Student</td>
+                                    <td>
+                                        @Html.DropDownListFor(x => x.order.StudentTickets, new[]
+{
+                                        new SelectListItem() {Text = "0", Value = "0"},
+                                        new SelectListItem() {Text = "1", Value = "1"},
+                                        new SelectListItem() {Text = "2", Value = "2"},
+                                        new SelectListItem() {Text = "3", Value = "3"},
+                                        new SelectListItem() {Text = "4", Value = "4"},
+                                        new SelectListItem() {Text = "5", Value = "5"},
+                                        new SelectListItem() {Text = "6", Value = "6"},
+                                        new SelectListItem() {Text = "7", Value = "7"},
+                                        new SelectListItem() {Text = "8", Value = "8"},
+                                        new SelectListItem() {Text = "9", Value = "9"},
+
+                                    })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kinderen</td>
+                                    <td>
+                                        @Html.DropDownListFor(x => x.order.ChildTickets, new[]
+{
+                                        new SelectListItem() {Text = "0", Value = "0"},
+                                        new SelectListItem() {Text = "1", Value = "1"},
+                                        new SelectListItem() {Text = "2", Value = "2"},
+                                        new SelectListItem() {Text = "3", Value = "3"},
+                                        new SelectListItem() {Text = "4", Value = "4"},
+                                        new SelectListItem() {Text = "5", Value = "5"},
+                                        new SelectListItem() {Text = "6", Value = "6"},
+                                        new SelectListItem() {Text = "7", Value = "7"},
+                                        new SelectListItem() {Text = "8", Value = "8"},
+                                        new SelectListItem() {Text = "9", Value = "9"},
+
+                                    })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>65+</td>
+                                    <td>
+                                        @Html.DropDownListFor(x => x.order.ElderlyTickets, new[]
+{
+                                        new SelectListItem() {Text = "0", Value = "0"},
+                                        new SelectListItem() {Text = "1", Value = "1"},
+                                        new SelectListItem() {Text = "2", Value = "2"},
+                                        new SelectListItem() {Text = "3", Value = "3"},
+                                        new SelectListItem() {Text = "4", Value = "4"},
+                                        new SelectListItem() {Text = "5", Value = "5"},
+                                        new SelectListItem() {Text = "6", Value = "6"},
+                                        new SelectListItem() {Text = "7", Value = "7"},
+                                        new SelectListItem() {Text = "8", Value = "8"},
+                                        new SelectListItem() {Text = "9", Value = "9"},
+
+                                    })
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Popcorn-Arrangement</td>
+                                    <td>
+                                        @Html.DropDownListFor(x => x.order.PopcornArrangement, new[]
+{
+                                        new SelectListItem() {Text = "0", Value = "0"},
+                                        new SelectListItem() {Text = "1", Value = "1"},
+                                        new SelectListItem() {Text = "2", Value = "2"},
+                                        new SelectListItem() {Text = "3", Value = "3"},
+                                        new SelectListItem() {Text = "4", Value = "4"},
+                                        new SelectListItem() {Text = "5", Value = "5"},
+                                        new SelectListItem() {Text = "6", Value = "6"},
+                                        new SelectListItem() {Text = "7", Value = "7"},
+                                        new SelectListItem() {Text = "8", Value = "8"},
+                                        new SelectListItem() {Text = "9", Value = "9"},
+
+                                    })
+
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+
+
+                        @Html.HiddenFor(x => x.MovieID, new { Value = Model.HallMovie.Movie.MovieID })
+                        @Html.HiddenFor(x => x.HallMovieID, new { Value = Model.HallMovie.HallMovieID })
+                        @Html.HiddenFor(x => x.HallMovie, new { Value = Model.HallMovie })
+
+
+
+                        <div class="row text-center">
+                            <input class="btn btn-success btn-xlarge" id="print" type="submit" value="Stoelen kiezen" />
+                        </div>
+                    }
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

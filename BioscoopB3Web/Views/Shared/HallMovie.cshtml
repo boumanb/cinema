@@ -1,0 +1,33 @@
+﻿@model BioscoopB3Web.Domain.Entities.HallMovie
+
+
+    <div class="well col-md-3">
+        <div class="">
+            <div class="col-md-6" />
+            @if (Model.Movie.ImgUrl != "")
+            {
+                <img src="@Model.Movie.ImgUrl" class="img-responsive" />
+            }
+            else
+            {
+                <img src="http://drkeyurparmar.com/wp-content/uploads/2015/02/dummy-article-img-1.jpg" class="img-responsive" />
+            }
+        </div>
+        <span class="post-title col-md-6">
+            <b>@Model.Movie.Title</b><br>
+            @Model.DateTime.ToString("dd-MM-yyyy")<br/>
+            @Model.DateTime.ToString("HH:mm")<br/>
+            Zaal: @Model.HallID <br />
+            <a href="@Url.Action("Description", "HallMovie", new { HallMovieID = Model.HallMovieID })"><div class="text-center btn btn-success buttonNav info-button buttons">Info</div></a>  
+        </span>
+        @if (Model.LadiesNight)
+        {
+            <div style="color: deeppink;">
+                LADIESNIGHT
+            </div>
+        }
+    </div>
+</div>
+
+
+

@@ -1,0 +1,86 @@
+﻿@model TouchUI.Models.HallMovieViewModel
+
+@{
+    ViewBag.Title = "Besteloverzicht";
+}
+
+<h1 class="text-center">Besteloverzicht</h1>
+<h2 class="text-center">Film: <b>@Model.Movie.Title</b> Zaal: <b>@Model.HallMovie.HallID</b></h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Type ticket</th>
+            <th>Aantal</th>
+            <th>Prijs</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.HallMovie.LadiesNight == true)
+        {
+            <tr>
+                <td>Ladies night</td>
+                <td>@Model.order.NormalTickets</td>
+                <td>€ @Model.order.NormalTicketsPrice</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Totaal:</b></td>
+                <td></td>
+                <td>€ @Model.order.TotalPrice</td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td>Standaard</td>
+                <td>@Model.order.NormalTickets</td>
+                <td>€ @Model.order.NormalTicketsPrice</td>
+            </tr>
+            <tr>
+                <td>Student</td>
+                <td>@Model.order.StudentTickets</td>
+                <td>€ @Model.order.StudentTicketsPrice</td>
+            </tr>
+            <tr>
+                <td>Kind</td>
+                <td>@Model.order.ChildTickets</td>
+                <td>€ @Model.order.ChildTicketsPrice</td>
+            </tr>
+            <tr>
+                <td>65+</td>
+                <td>@Model.order.ElderlyTickets</td>
+                <td>€ @Model.order.ElderlyTicketsPrice</td>
+            </tr>
+            <tr>
+                <td>Popcorn-Arrangement</td>
+                <td>@Model.order.PopcornArrangement</td>
+                <td>€ @Model.order.PopcornArrangementPrice</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>Totaal:</b></td>
+                <td></td>
+                <td>€ @Model.order.TotalPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="text-center">
+    <a href="@Url.Action("PinPayment", "Payment")">
+        <div class="btn btn-success">
+            Betaal
+        </div>
+    </a>
+</div>
+
+

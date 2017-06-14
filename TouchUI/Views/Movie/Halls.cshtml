@@ -1,0 +1,38 @@
+﻿@using BioscoopB3Web.Domain.Abstract
+@using BioscoopB3Web.Domain.Concrete
+@model IEnumerable<int>
+@{
+    ViewBag.Title = "Zalen";
+}
+
+<h2 class="text-center">@ViewBag.List</h2>
+
+<div class="container">
+    <div class="text-center">
+
+        @{
+            var a = 0;
+            var b = 1;
+            foreach (int i in Model)
+            {
+                if (a % 11 == 0)
+                {
+                    @:<div class="row">
+                }
+                <a href="@Url.Action("MovieListHall", "Movie", new {id = i})">
+                    <div class="btn-lg btn-info text-center col-md-1" style="margin: 2px">Zaal @i</div>
+                </a>
+                
+                if (b % 11 == 0)
+                {
+                    @:</div>
+
+
+                }
+
+                a++;
+                b++;
+            }
+        }
+    </div>
+</div>

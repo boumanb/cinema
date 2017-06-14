@@ -1,0 +1,35 @@
+﻿@model List<BioscoopB3Web.Domain.Entities.HallMovie>
+
+@{
+    ViewBag.Title = "MovieList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">@ViewBag.MovieList</h2>
+<div class="container">
+    @{
+        var a = 0;
+        var b = 1;
+        foreach (var m in Model)
+        {
+            if (a % 4 == 0)
+            {
+                @:<div class="row">
+        }
+            @Html.Partial("HallMovie", m);
+
+            if (b % 4 == 0)
+            {
+                @:</div>
+        }
+
+            a++;
+            b++;
+        }
+
+    }
+</div>
+<br />
+
+
+

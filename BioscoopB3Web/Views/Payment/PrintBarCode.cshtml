@@ -1,0 +1,10 @@
+﻿@model BioscoopB3Web.Models.HallMovieViewModel
+
+@{
+    ViewBag.Title = "Print BarCode";
+    Layout = null;
+
+    string imgurl = "..\\Barcodes\\" + @Model.order.PrintID + "";
+}
+
+<img style="height: 500px; width: 500px;" src="@Server.MapPath(imgurl)" />

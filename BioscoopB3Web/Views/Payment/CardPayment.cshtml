@@ -1,0 +1,36 @@
+﻿@model BioscoopB3Web.Models.CardPaymentViewModel
+
+@{
+    ViewBag.Title = "Kaart Betaling";
+}
+
+<link href="~/Content/InputValidation.css" rel="stylesheet" />
+
+<div class="text-center">
+    <img src="http://www.dexter-academy.com/images/Credit-Card-Logos.gif" style="width: 500px; height: 140px"/>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary()
+        <div class="text-center">
+            <div class="form-group">
+
+                <div class="form-group" style="width: 200px; margin-left: auto; margin-right: auto">
+                    <label>Kaartnummer: </label><br />
+                    @Html.TextBoxFor(c => c.CardNumber, new { @class = "form-control" })
+                </div>
+
+                <label>Vervaldatum: </label>
+                    @Html.DropDownListFor(c => c.ExpiryMonth, Enumerable.Range(1, 12).Select(x => new SelectListItem { Text = x.ToString() }), "Maand")
+                    @Html.DropDownListFor(c => c.ExpiryYear, Enumerable.Range(DateTime.Now.Year, 11).Select(x => new SelectListItem { Text = x.ToString() }), "Jaar")
+            </div>
+
+            <div class="form-group" style="width: 200px; margin-left: auto; margin-right: auto">
+                <label>Veiligheidscode: </label><br />
+                @Html.TextBoxFor(c => c.SecurityNumber, new { @class = "form-control" })
+            </div>
+            <input type="submit" va%lue="Betalen" class="btn btn-success" />
+        </div>
+    }
+</div>

@@ -1,0 +1,10 @@
+﻿@model BioscoopB3Web.Models.HallMovieViewModel
+
+@{
+    ViewBag.Title = "Print QR Code";
+    Layout = null;
+
+    string imgurl = "..\\QRCodes\\" + @Model.order.PrintID + "";
+}
+
+<img style="height: 500px; width: 500px;" src="@Server.MapPath(imgurl)" />

@@ -1,0 +1,282 @@
+﻿@model BioscoopB3Web.Domain.Entities.Movie
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Film toevoegen";
+}
+
+@{
+    string AccountMail = (string)(Session["AccountMail"]);
+    string AccountType = (string)(Session["AccountType"]);
+}
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_BackOfficeMenu")
+        </div>
+        <div class="well col-md-9">
+            <div class="row">
+                <div class="col-md-6">Account mail: @AccountMail</div>
+                <div class="col-md-6">Account type: @AccountType</div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Zoek beschikbare informatie</div>
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div>
+                                    <label>Titel</label>
+                                    <input id="title" class="form-control" type="text" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div>
+                                    <label>Jaar</label>
+                                    <input id="year" class="form-control" type="text" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <br />
+                                <button id="search-by-title-button" type="button" class="btn btn-primary">Zoek</button>
+                            </div>
+
+                            <div class="col-md-12">
+                                <br/>
+                                <p>Krijg je geen films gevonden? probeer dan de titel op te zoeken op <a href='http://www.imdb.com' target="_blank">IMDB</a> en tik deze titel vervolgens hier in.</p>
+                            </div>
+                        </div>
+
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="row">
+                                <div class="well col-md-12">
+                                    <p class="text-center" style="font-weight:bold; color: green;">@ViewBag.Success<p></p>
+                                </div>
+                            </div>
+                        }
+
+                        @if (ViewBag.NoSuccess != null)
+                        {
+                            <div class="row">
+                                <div class="well col-md-12">
+                                    <p class="text-center" style="font-weight:bold; color: red;">@ViewBag.NoSuccess<p></p>
+                                </div>
+                            </div>
+                        }
+
+                        <div id="summary" class="row hidden">
+                            <div class="col-md-12">
+                                <div class="well">
+                                    <div class="row">
+                                        <h4 id="summaryText" style="font-weight: bold;" class="text-center col-md-12"></h4>
+                                    </div>
+                                    <div class="row">
+                                        <p class="col-md-6" id="movie-description"></p>
+                                        <img class="col-md-4" id="poster" src="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <link href="~/Content/InputValidation.css" rel="stylesheet" />
+            <div class="row well">
+                @using (Html.BeginForm("AddMovie", "BackOfficeAccount", FormMethod.Post))
+                {
+                    @Html.ValidationSummary()
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="form-group col-md-12">
+                                <label>Film titel*:</label>
+                                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @id = "titel" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>3D*:</label>
+                                @Html.DropDownListFor(x => x.ThreeD, new[]
+                                    {
+                                        new SelectListItem() {Text = "Nee", Value = false.ToString()},
+                                        new SelectListItem() {Text = "Ja", Value = true.ToString()},
+                                    }, "Kies een optie", new { @class = "form-control", @id = "3D" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Ondertiteling*:</label>
+                                @Html.DropDownListFor(x => x.Subtitles, new[]
+                                    {
+                                        new SelectListItem() {Text = "Nee", Value = false.ToString()},
+                                        new SelectListItem() {Text = "Ja", Value = true.ToString()},
+                                    }, "Kies een optie", new { @class = "form-control", @id = "subtitle" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Genre*:</label>
+                                @Html.TextBoxFor(x => x.Genre, new { @class = "form-control", @id = "genre" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Filmduur minuten*:</label>
+                                @Html.TextBoxFor(x => x.Length, new { @class = "form-control", @id = "length" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Minimum leeftijd*:</label>
+                                @Html.DropDownListFor(x => x.Age, new[]
+                                    {
+                                        new SelectListItem() {Text = "6", Value = "6"},
+                                        new SelectListItem() {Text = "9", Value = "9"},
+                                        new SelectListItem() {Text = "12", Value = "12"},
+                                        new SelectListItem() {Text = "16", Value = "16"},
+                                    }, "Kies een leeftijd", new { @class = "form-control", @id = "age" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label>Gesproken taal*:</label>
+                                @Html.TextBoxFor(x => x.Language, new { @class = "form-control", @id = "language" })
+                            </div>                            
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Film beschrijving (bij voorkeur in het Nederlands)*:</label>
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @id = "description", @style = "max-width: 100%; height: 300px;" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Regisseur(s)*:</label>
+                            @Html.TextBoxFor(x => x.Director, new { @class = "form-control", @id = "director" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Acteur(s)*:</label>
+                            @Html.TextBoxFor(x => x.Actor, new { @class = "form-control", @id = "actor" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>URL Website Film:</label>
+                            @Html.TextBoxFor(x => x.Site, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>URL Trailer Film:</label>
+                            @Html.TextBoxFor(x => x.Trailer, new { @class = "form-control" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>URL Imdb Film:</label>
+                            @Html.TextBoxFor(x => x.Imdb, new { @class = "form-control", @id = "IMDBurl" })
+                        </div>
+
+                        <div class='col-md-6'>
+                            <div class="form-group">
+                                <label>Draait tot*:</label>
+                                <div class='input-group date' id='datetimepicker2'>
+                                    @Html.TextBoxFor(x => x.RunTime, new { @class = "form-control", @id = "datepicker", @type = "text" })
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @Html.TextBoxFor(x => x.ImgUrl, new { @class = "form-control hidden", @id = "imgurl" })
+
+                        @*if (ViewBag.NoFile != null)
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                    </div>
+                                    <div class="well col-md-6">
+                                        <p style="color: red;">@ViewBag.NoFile</p>
+                                    </div>
+                                </div>
+                            }*@
+                    </div>
+                    <div class="row">
+                        <div class="text-center">
+                            <input class="btn btn-success btn-lg" type="submit" value="Voeg film toe" />
+                        </div>
+                    </div>
+                }
+            
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+@*<script src="~/Scripts/jquery-3.1.1.min.js"></script>*@
+
+
+<script>  
+
+    $(function () {
+        $('#datetimepicker2').datetimepicker({
+            locale: 'nl',
+            format: 'DD-MM-YYYY'
+        });
+    });
+        
+        $('#search-by-title-button').on('click', function () {
+            var sUrl,sYear, sMovie, oData;
+            sMovie = $('#title').val();
+            sYear = $('#year').val();
+            sUrl = 'https://www.omdbapi.com/?t=' + sMovie + '&plot=full' + '&y=' + sYear;
+            $.ajax(sUrl, {
+                complete: function (p_oXHR, p_sStatus) {
+                    oData = $.parseJSON(p_oXHR.responseText);
+                    console.log(oData);
+                    if (oData.Error == "Movie not found!") {
+                        $('#summaryText').text("Geen film gevonden, heb je al een jaar ingevuld?");
+                        $('#summary').removeClass("hidden");
+                    } else {
+                        $('#summaryText').text("Gevonden film");
+                        $('#titel').val(oData.Title);
+                        $('#description').val(oData.Plot);
+                        $('#movie-description').text(oData.Plot);
+                        var runtime = parseInt(oData.Runtime, 10);
+                        $('#length').val(runtime);
+                        var language = oData.Language;
+                        var resultlang = language.split(",", 1);
+                        var resultlang = resultlang[0];
+                        if (resultlang == "Dutch") {
+                            var resultlang = "Nederlands";
+                        }
+                        $('#language').val(resultlang);
+                        $('#genre').val(oData.Genre);
+                        $('#director').val(oData.Director);
+                        $('#actor').val(oData.Actors);
+                        if (oData.Poster == "N/A") {
+                            var poster = "http://drkeyurparmar.com/wp-content/uploads/2015/02/dummy-article-img-1.jpg";
+                        } else {
+                            var poster = oData.Poster;
+                        }
+                        $('#poster').attr("src", "" + poster).attr("class", "img-responsive col-md-2");
+                        $('#IMDBurl').val("http://www.imdb.com/title/" + oData.imdbID)
+                        $('#imgurl').val(oData.Poster);
+                        $('#summary').removeClass("hidden");
+                        $('#summary').animate()
+                        $('html, body').animate({
+                            scrollTop: $("#summaryText").offset().top
+                        }, 2000);
+                    }                    
+                }
+            });
+        });
+ 
+</script>

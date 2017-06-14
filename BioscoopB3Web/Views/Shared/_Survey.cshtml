@@ -1,0 +1,35 @@
+﻿@model BioscoopB3Web.Domain.Entities.Survey
+
+@using (Html.BeginForm("AddSurvey", "ManagerAccount", FormMethod.Post))
+{
+    @Html.ValidationSummary()
+    <div class="form-group col-md-12">
+        <label>Wat voor cijfer geeft u het betaalproces?</label>
+        @Html.DropDownListFor(x => x.ScoreQ, new[]
+                    {
+                    new SelectListItem() {Text = "1", Value = "1"},
+                    new SelectListItem() {Text = "2", Value = "2"},
+                    new SelectListItem() {Text = "3", Value = "3"},
+                    new SelectListItem() {Text = "4", Value = "4"},
+                    new SelectListItem() {Text = "5", Value = "5"},
+                    }, new { @class = "form-control" })
+    </div>
+    <div class="form-group col-md-12">
+        <label>Wat vond u van het betaalproces?</label>
+        @Html.DropDownListFor(x => x.MultipleChoiceQ, new[]
+                    {
+                    new SelectListItem() {Text = "Het is goed zo!", Value = "Het is goed zo!"},
+                    new SelectListItem() {Text = "Kan beter", Value = "Kan beter"},
+                    new SelectListItem() {Text = "Nog nooit zo slecht gezien", Value = "Nog nooit zo slecht gezien"},
+                    }, new { @class = "form-control" } )
+    </div>
+    <div class="form-group col-md-12">
+        <label>Verbeterpunt(en)</label>
+        @Html.TextAreaFor(x => x.OpenQ, new { @class = "form-control", @style = "max-width: 100%;" })
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuleer</button>
+        <button type="submit" class="btn btn-primary">Stuur in</button>
+    </div>
+}

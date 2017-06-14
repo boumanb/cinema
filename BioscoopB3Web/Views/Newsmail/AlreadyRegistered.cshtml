@@ -1,0 +1,32 @@
+﻿@model  BioscoopB3Web.Domain.Entities.Account
+
+@{
+    ViewBag.Title = "Al ingeschreven";
+}
+
+<h2 class="text-center">Oeps, je bent al ingeschreven op de nieuwsbrief!</h2>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Naam
+                </th>
+                <th>
+                    Email
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.Name
+                </td>
+                <td>
+                    @Model.Email
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

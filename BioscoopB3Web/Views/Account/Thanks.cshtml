@@ -1,0 +1,35 @@
+﻿@model BioscoopB3Web.Domain.Entities.Customer
+
+@{
+    ViewBag.Title = "Aangemeld";
+}
+
+<h2 class="text-center">Je hebt succesvol een account geregistreerd!</h2>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Naam
+                </th>
+                <th>
+                    Email
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.Name
+                </td>
+                <td>
+                    @Model.Email
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <a href="@Url.Action("Index", "Account")"><div class="text-center btn btn-success buttonNav Movie-button">Log in</div></a>
+    </div>
+    <br/>
+</div>

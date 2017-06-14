@@ -1,0 +1,52 @@
+﻿@model BioscoopB3Web.Models.NewsMailViewModel
+
+@{ 
+    ViewBag.Title = "Aanmelden nieuwsbrief";
+}
+
+<br/>
+<link href="~/Content/InputValidation.css" rel="stylesheet" />
+<div class="container">
+    <div class="panel panel-info"> 
+        <div class="panel-heading panel-info text-center"><h1>Aanmelden nieuwsbrief</h1></div>
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+                @Html.ValidationSummary()
+                <div class="form-group">
+                    <label>Jouw email:</label>
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Jouw naam: </label>
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Jouw achternaam: </label>
+                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label>Aanhef:</label>
+                    @Html.DropDownListFor(x => x.Gender, new[]
+            {
+                new SelectListItem() {Text = "Heer", Value = "Male"},
+                new SelectListItem() {Text = "Mevrouw", Value = "Female"}
+            }, "---")
+                </div>
+                <div class="form-group">
+                    <label>Nieuwsbrief?</label>
+                    @Html.DropDownListFor(x => x.WantsNewsletter, new[]
+            {
+                new SelectListItem() {Text = "Ja, ik wil graag de nieuwsbrief ontvangen", Value = bool.TrueString}
+            }, "Kies een optie")
+                </div>
+                <div class="text-center">
+                    <input class="btn btn-info" type="submit" value="Verzend" />
+                </div>
+            }
+        </div>
+</div>
+</div>
+
+
+

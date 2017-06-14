@@ -1,0 +1,95 @@
+﻿@model TouchUI.Models.HallMovieViewModel
+@{
+    ViewBag.Title = "Layout";
+}
+<div class="container">
+    <h2 class="text-center well">@ViewBag.seatError</h2>
+
+    <div class="">
+        <div class="col-md-12 text-center">
+            @using (Html.BeginForm("Selection", "HallMovie"))
+            {
+
+                int rows = Model.HallMovie.Hall.HallLayout.Rows + 1;
+                int seatsPerRow = Model.HallMovie.Hall.HallLayout.SeatsPerRow + 1;
+                int seat = 1;
+
+                for (int j = 1; j < rows; j++)
+                {
+
+                    for (int x = 1; x < seatsPerRow; x++)
+                    {
+
+                        var ticket = Model.AllTickets.Find(t => t.Seat == seat);
+
+                        if (ticket != null)
+                        {
+                            <input style="-webkit-appearance:none;width:30px;height:30px;background:red;border-radius:5px;border:2px solid #555;" class="checkbox-inline text-center" type="checkbox" disabled="disabled" onclick="return false;" readonly="readonly" name="selectedSeats" value="@seat">
+                        }
+                        else
+                        {
+                            <input class="checkbox-inline text-center" type="checkbox" name="selectedSeats" value="@seat">
+                        }
+
+                        @:<input type="hidden" name="rows" value="@j">
+                seat++;
+                    }
+                    <br />
+                }
+                @Html.HiddenFor(x => x.MovieID, new { Value = Model.HallMovie.Movie.MovieID })
+                @Html.HiddenFor(x => x.HallMovieID, new { Value = Model.HallMovie.HallMovieID })
+                @Html.HiddenFor(x => x.HallMovie, new { Value = Model.HallMovie })
+                @:<p class="text-center text-capitalize">SCHERM</p>
+                @:</div>
+
+
+
+                <div class="col-md-12 well">
+                    <p>Kies aub @Model.order.TotalTickets stoel(en) uit</p>
+                    <div id="status">
+                        <p id="count">
+                            0 van de @Model.order.TotalTickets stoelen zijn geselecteerd
+                        </p>
+                        <p>
+                            <input style="-webkit-appearance:none;width:30px;height:30px;background:red;border-radius:5px;border:2px solid #555;" class="checkbox-inline" type="checkbox" disabled="disabled" onclick="return false;" readonly="readonly" name="selectedSeats" /> = Stoel bezet
+                        </p>
+                        <p>
+                            <input class="checkbox-inline" type="checkbox" name="selectedSeats" disabled="disabled" onclick="return false;" readonly="readonly" /> = Stoel vrij
+                        </p>
+                    </div>
+                </div>
+            @:</div>
+                @:</div>
+            
+            @:<br />
+        
+        
+        <div class="row text-center">
+            <input class="btn-lg btn-success" type="submit" value="Naar bestel overzicht" />
+        </div>
+        <br />
+            }
+
+<script>
+    var countChecked = function() {
+
+        var n = $( "[type='checkbox']:checked" ).length;
+        $( "#count" ).text( n + " van de @Model.order.TotalTickets stoelen" + (n === 1 ? " is" : " zijn") + " geselecteerd" );
+    };
+
+
+    $("input[type=checkbox]").on("click", checkSelected);
+    var checkSelected = function() {
+        $('input[type="checkbox"]').click(function (event) {
+            if (this.checked && $('input:checked').length > @Model.order.TotalTickets) {
+                event.preventDefault();
+                alert('Je mag niet meer dan @Model.order.TotalTickets stoelen selecteren');
+
+            } else
+            {
+                countChecked();
+            }
+        });
+    };
+    checkSelected();
+</script>

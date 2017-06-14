@@ -1,0 +1,50 @@
+﻿@model BioscoopB3Web.Domain.Entities.Account
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    string AccountMail = (string)(Session["AccountMail"]);
+    string AccountType = (string)(Session["AccountType"]);
+}
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_CashierMenu")
+        </div>
+        <div class="col-md-9">
+            <div class="row well">
+                <div class="col-md-6">Account mail: @AccountMail</div>
+                <div class="col-md-6">Account type: @AccountType</div>
+            </div>
+            <div class="row well">
+                <div id="Partial">
+                    @Html.Action("LoadAvailableSeats", "CashierAccount")
+                </div>
+            </div>  
+        </div>        
+    </div>    
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<script>
+    function Refresh() {
+        $.ajax({
+            url: '/CashierAccount/LoadAvailableSeats',
+            success: function (data) {
+                $("#Partial").html(data);
+            }
+        });
+    }
+
+    window.setInterval(function () {
+        Refresh();
+        console.log("refresh");
+    }, 5000);
+</script>

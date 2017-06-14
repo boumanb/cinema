@@ -1,0 +1,68 @@
+﻿@model BioscoopB3Web.Models.HallMovieViewModel
+@{
+    ViewBag.Title = "Success";
+}
+<br/>
+<div class="container">
+    @if (ViewBag.Success != null)
+    {
+    <div class="row">
+        <div class="well col-md-12">
+            <p class="text-center" style="font-weight:bold; color: green;">@ViewBag.Success<p></p>
+        </div>
+    </div>
+    }
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6 well">
+            <div class="col-md-6 text-center">
+                <a href="@Url.Action("PrintBarCode", "Payment")"><div class="text-center btn btn-info buttonNav Movie-button">Print barcode</div></a>
+            </div>
+            <div class="col-md-6 text-center">
+                <a href="@Url.Action("PrintQRCode", "Payment")"><div class="text-center btn btn-info buttonNav Movie-button">Print QR code</div></a>
+            </div>
+            <br/><br /><br />
+            <div class="col-md-6 text-center">
+                <a href="@Url.Action("Print", "Payment")"><div class="text-center btn btn-info buttonNav Movie-button">Print tickets</div></a>
+            </div>
+            <div class="col-md-6 text-center">
+                <a href="@Url.Action("Index", "Home")"><div class="text-center btn btn-success buttonNav Movie-button">Terug naar home</div></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6 well">
+            <div class="col-md-6">
+                <p>Heeft u eventjes? Wij zouden het heel erg waarderen als u een aantal vragen zou kunnen beantwoorden over het bestelproces. Met deze informatie kunnen wij aan de slag om dingen te verbeteren!</p>
+            </div>
+            <div class="col-md-6 text-center">
+                 <br /> <br/>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal1">
+                    Ik heb 1 minuut de tijd!
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Enquête</h4>
+                            </div>
+                            <div class="modal-body">
+                                @Html.Action("Survey", "ManagerAccount")
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,34 @@
+﻿@model List<BioscoopB3Web.Models.AvailableSeatsViewModel>
+@using BioscoopB3Web.Models
+@{
+    foreach (AvailableSeatsViewModel asvmodel in Model)
+    {
+
+        decimal i = 100 - asvmodel.PercentAvailable;
+        <div class="well-sm">            
+            <div style="height: 30px" class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width:@asvmodel.PercentAvailable%">
+                    @asvmodel.SeatsAvailable
+                </div>
+                <div class="progress-bar progress-bar-danger" role="progressbar" style="width:@i%">
+                    @asvmodel.TakenSeats
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="col-md-4 text-center">
+                    Naam film: @asvmodel.HallMovie.Movie.Title
+                </h4>
+                <h4 class="col-md-4 text-center">
+                    Draaitijd: @asvmodel.HallMovie.DateTime
+                </h4>
+                <h4 class="col-md-4 text-center">
+                    In zaal nummer: @asvmodel.HallMovie.HallID
+                </h4>
+            </div>
+        </div>
+    }
+}
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+

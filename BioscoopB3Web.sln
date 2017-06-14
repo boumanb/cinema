@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioscoopB3Web.UI", "BioscoopB3Web\BioscoopB3Web.UI.csproj", "{744C7D95-2DDC-4A98-AA45-BF6C5FD070FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioscoopB3Web.Tests", "BioscoopB3Web.Tests\BioscoopB3Web.Tests.csproj", "{B1E718BA-8505-4AF9-B6EA-182A346A374D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BioscoopB3Web.Domain", "ClassLibrary1\BioscoopB3Web.Domain.csproj", "{53A8CDC0-D46F-471E-910B-8430F2F2BCCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchUI", "TouchUI\TouchUI.csproj", "{5D51DCA9-E472-41F7-943E-2ABC42114D19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchUI.Tests", "TouchUI.Tests\TouchUI.Tests.csproj", "{454C1661-7347-4EF4-9660-190C2EA73247}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{744C7D95-2DDC-4A98-AA45-BF6C5FD070FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{744C7D95-2DDC-4A98-AA45-BF6C5FD070FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{744C7D95-2DDC-4A98-AA45-BF6C5FD070FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{744C7D95-2DDC-4A98-AA45-BF6C5FD070FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E718BA-8505-4AF9-B6EA-182A346A374D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E718BA-8505-4AF9-B6EA-182A346A374D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E718BA-8505-4AF9-B6EA-182A346A374D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E718BA-8505-4AF9-B6EA-182A346A374D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53A8CDC0-D46F-471E-910B-8430F2F2BCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A8CDC0-D46F-471E-910B-8430F2F2BCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A8CDC0-D46F-471E-910B-8430F2F2BCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A8CDC0-D46F-471E-910B-8430F2F2BCCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D51DCA9-E472-41F7-943E-2ABC42114D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D51DCA9-E472-41F7-943E-2ABC42114D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D51DCA9-E472-41F7-943E-2ABC42114D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D51DCA9-E472-41F7-943E-2ABC42114D19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{454C1661-7347-4EF4-9660-190C2EA73247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{454C1661-7347-4EF4-9660-190C2EA73247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{454C1661-7347-4EF4-9660-190C2EA73247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{454C1661-7347-4EF4-9660-190C2EA73247}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

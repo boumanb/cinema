@@ -1,0 +1,20 @@
+﻿@model BioscoopB3Web.Domain.Entities.Account
+
+@{
+    ViewBag.Title = "Account";
+}
+
+@{  
+    string AccountMail = (string)(Session["AccountMail"]);    
+}
+
+<br/>
+
+<div class="container">
+    <div class="row">
+        <div class="well">
+            <div class="col-md-6">Account mail: @Model.Email</div>               
+            <div class="col-md-6">Account type: @Model.AccountType</div>     
+        </div>
+    </div>
+</div>

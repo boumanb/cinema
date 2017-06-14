@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>@ViewBag.Title - Bioscoop B3</title>
+    <link href="https://popcorn-time.to/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/Styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.css" />
+</head>
+<body>
+    @*<script src="~/Scripts/FBLogin.js"></script>*@
+    @if (Session["LoggedIn"] == null) { Session["LoggedIn"] = false ;}
+    <header>
+        <div class="float-right">
+            <nav class="nav navbar-default">
+                <div class="container">
+                    <ul id="menu" class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Films deze filmweek", "List", "Movie")</li>
+                        <li>@Html.ActionLink("Zalen", "List", "Hall")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Contact")</li>
+                        <li>@Html.ActionLink("Aanmelden nieuwsbrief", "Subscribe", "Newsmail")</li>
+                        @{if ((bool)(Session["LoggedIn"]) == true)
+                            {
+                                <li id="dropdownitem" class="dropdown">
+                                    <a id="dropdown" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Mijn Account
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul id="dropdown-menu" class="dropdown-menu">                                        
+                                        <li class="text-center">@Html.ActionLink("Account dashboard", "Account", "Account")</li>
+                                        @if ((string)Session["AccountType"] == "Cashier")
+                                        {
+                                            <li class="text-center">
+                                                <!-- Button trigger modal -->
+                                                <button style="" type="button" class="btn" data-toggle="modal" data-target="#myModal">
+                                                    Zaalbezetting
+                                                </button>
+                                            </li>
+                                        }
+                                        <li class="text-center">@Html.ActionLink("Uitloggen", "LogOut", "Account")</li>
+                                        
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Mijn Account", "Index", "Account")</li>
+                            }
+                        }                        
+                    </ul>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Zaalbezetting</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="Partial">
+                                        @Html.Action("LoadAvailableSeats", "CashierAccount")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float: right; padding-bottom: 15px; padding-top: 15px; margin-right: 10px">
+                        @using (Html.BeginForm("SearchMovie", "Search", FormMethod.Get))
+                        {
+                            //the following are search options
+                            @Html.TextBox("search") <input class="btn btn-success" type="submit" name="submit" value="Zoeken" />
+                        }
+                    </div>
+            </nav>
+        </div>
+        </div>
+    </header>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <div class="container-fluid">
+
+        @RenderBody()
+
+    </div>
+    <div>
+        <footer class="text-center">    
+            <div class="col-md-12">
+                <p>&copy; @DateTime.Now.Year - Bioscoop B3</p> <br />
+                <a href="https://www.facebook.com/" class="fa fa-facebook"></a>
+                <a href="https://www.twitter.com/" class="fa fa-twitter"></a>
+                <a href="https://www.youtube.com/" class="fa fa-youtube"></a>
+            </div>
+        </footer>
+    </div>
+    
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dropdown").click(function () {
+                $("#dropdown-menu").slideToggle("fast");
+            });
+            $("#dropdown-menu").mouseleave(function () {
+                $("#dropdown-menu").slideUp("fast");
+                $("#dropdownitem").removeClass("open");
+            });
+        });
+
+        if("@((string)Session["AccountType"])" == "Cashier"){
+        function Refresh() {
+            $.ajax({
+                url: '/CashierAccount/LoadAvailableSeats',
+                success: function (data) {
+                    $("#Partial").html(data);
+                }
+            });
+        }
+        
+
+        window.setInterval(function () {
+            Refresh();
+            console.log("refresh");
+        }, 5000);
+        }   
+    </script>
+
+
+</body>
+</html>

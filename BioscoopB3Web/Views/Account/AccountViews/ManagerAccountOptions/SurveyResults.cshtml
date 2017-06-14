@@ -1,0 +1,156 @@
+﻿@model BioscoopB3Web.Models.SurveyResultsViewModel
+@using BioscoopB3Web.Domain.Entities
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Enquête uitslagen";
+}
+
+@{
+    string AccountMail = (string)(Session["AccountMail"]);
+    string AccountType = (string)(Session["AccountType"]);
+}
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            @Html.Partial("_ManagerMenu")
+        </div>
+        <div class="col-md-9">
+            <div class="row well">
+                <div class="col-md-6">Account mail: @AccountMail</div>
+                <div class="col-md-6">Account type: @AccountType</div>
+            </div>
+            <div class="row well">
+                <div class="col-md-12 text-center">
+                    <h4 class="col-md-12" style="font-weight:bold;">Totaal aantal enquête's ingevuld: @Model.Surveys.Count()</h4>
+                </div>
+                <div class="col-md-6 text-center">
+                    <h4 style="font-weight:bold;">Wat vond u van het betaal proces?</h4>
+                    <canvas id="MultipleChoice" width="300" height="300"></canvas>
+                </div>
+                <div class="col-md-6 text-center">
+                    <h4 style="font-weight:bold;">Wat voor cijfer geeft u het betaal proces?</h4>
+                    <canvas id="Score"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button class="text-center btn btn-warning" id="SafetyButton">Verbeterpunten verwijderen: UIT</button>
+                    </div>
+            </div>
+            <br/>
+            <div class="row">
+                @{
+                    IEnumerable<Survey> listTips = Model.Surveys.Where(s => s.OpenQ != null && s.OpenQIsDeleted == false);
+                    foreach (Survey s in listTips)
+                    {
+                        <div class="well col-md-12" id="Tip">
+                            <div class="col-md-6">
+                                <p style="font-weight:bold;">Verbeterpunt:</p> @s.OpenQ 
+                            </div>
+                            <div class="col-md-3">
+                                <p style="font-weight:bold;">Cijfer betaalproces:</p> @s.ScoreQ
+                                <p style="font-weight:bold;">Mening betaalproces:</p> @s.MultipleChoiceQ
+                            </div>
+                            <div class="col-md-3">
+                                <button style="display:block; margin: 0 auto;" id="DeleteButton" value="@s.SurveyID" class="text-center btn btn-danger buttonNav Movie-button" disabled="disabled">Verwijder verbeterpunt</button>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<script src="~/Scripts/Chart.bundle.js"></script>
+
+<script>
+    function Delete(SurveyID) {
+        $.ajax({
+            type: "POST",
+            url: '/ManagerAccount/RemoveOpenQ?SurveyID=' + SurveyID            
+        });
+        
+    }
+
+    $("#SafetyButton").on('click', function () {
+        $(this).text(function (i, v) {
+            return v === 'Verbeterpunten verwijderen: UIT' ? 'Verbeterpunten verwijderen: AAN' : 'Verbeterpunten verwijderen: UIT'
+        })
+        $("#Tip button").prop('disabled', function (i, v) { return !v; });
+        $(this).toggleClass("btn-danger btn-success")
+    });
+
+    $("#Tip button").on('click', function () {
+        Delete(this.value);
+        $(this).parent().parent().remove();
+
+    });
+
+
+    var piedata = {
+        labels: [
+            "Het is goed zo!",
+            "Kan beter",
+            "Nog nooit zo slecht gezien"
+        ],
+        datasets: [
+            {
+                data: [@Model.Surveys.Where(s => s.MultipleChoiceQ == "Het is goed zo!").Count(), @Model.Surveys.Where(s => s.MultipleChoiceQ == "Kan beter").Count(), @Model.Surveys.Where(s => s.MultipleChoiceQ == "Nog nooit zo slecht gezien").Count()],
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56"
+                ],
+                hoverBackgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56"
+                ]
+            }]
+    };
+    var ctxpie = document.getElementById('MultipleChoice').getContext('2d');
+    var myPieChart = new Chart(ctxpie, {
+        type: 'pie',
+        data: piedata
+    });
+
+
+    var bardata = {
+        labels: [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        datasets: [
+            {
+                label: "Uitslagen",
+                data: [@Model.Surveys.Where(s => s.ScoreQ == 1).Count(), @Model.Surveys.Where(s => s.ScoreQ == 2).Count(), @Model.Surveys.Where(s => s.ScoreQ == 3).Count(), @Model.Surveys.Where(s => s.ScoreQ == 4).Count(), @Model.Surveys.Where(s => s.ScoreQ == 5).Count()],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235',
+                    'rgb(255, 206, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 159, 64)'
+                ],
+                hoverBackgroundColor: [
+                    'rgb(255,99,132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 206, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 159, 64, 1)'
+                ]
+            }]
+    };
+
+    var ctxbar = document.getElementById('Score').getContext('2d');
+    var myBarChart = new Chart(ctxbar, {
+        type: 'bar',
+        data: bardata,
+    });
+</script>

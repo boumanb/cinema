@@ -1,0 +1,50 @@
+﻿@model BioscoopB3Web.Models.HallMovieViewModel
+
+@{
+    ViewBag.Title = "Print";
+    Layout = null;
+}
+<table class="table table-striped print-table">
+    <thead>
+    </thead>
+    <tbody>
+        @{
+            foreach (BioscoopB3Web.Domain.Entities.Ticket ticket in Model.TempTickets)
+            {
+                @:<tr><td><b>Film: @Model.HallMovie.Movie.Title</b></td></tr>
+                @:<tr><td><b>Zaal: @Model.HallMovie.HallID</b></td></tr>
+                @:<tr><td><b>Draaitijd: @Model.HallMovie.DateTime</b></td></tr>
+                @:<tr><td><b>Stoel: @ticket.Seat</b></td></tr>
+                @:<tr><td><b>Rij: @ticket.Row</b></td></tr>
+                if (Model.HallMovie.LadiesNight == true)
+                {
+                @:<tr><td><b>Type ticket: Ladies night</b></td></tr>
+                }
+                else
+                {
+                @:<tr><td><b>Type ticket: @ticket.Type</b></td></tr>
+                }
+                @:<tr><td>------------------------------------------------------------------------------------------</td></tr>
+                for (int x = 0; x < 5; x++)
+                {
+                    @:
+                    <tr><td></td></tr>
+                }
+
+            }
+}
+        @for (int j = 0; j < Model.order.PopcornArrangement; j++)
+        {
+            @:<tr><td><b>Waardebon voor het popcorn arrangement.</b></td></tr>
+            @:<tr><td><b>2 medium pocorn</b></td></tr>
+            @:<tr><td><b>2 medium drinken</b></td></tr>
+            @:<tr><td>------------------------------------------------------------------------------------------</td></tr>
+            for (int x = 0; x < 5; x++)
+            {
+                @:
+                <tr><td></td></tr>
+    }
+}
+    </tbody>
+</table>
+

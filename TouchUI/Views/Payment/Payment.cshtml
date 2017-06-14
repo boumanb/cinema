@@ -1,0 +1,36 @@
+﻿@model TouchUI.Models.HallMovieViewModel
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Afrekenen</h2>
+
+<div class="container-fluid">
+    <div class="text-center">
+        @using (Html.BeginForm("PinPayment", "Payment"))
+            {
+
+            
+            <div class="form-group">
+                @{ 
+                    if(ViewBag.Error != null)
+                    {
+                        @:<div style="color: red">@ViewBag.Error</div>
+                    }
+                }
+                <label>Voer bank saldo in:</label>
+                @Html.TextBoxFor(x => x.Saldo, new { @class = "form-control" })
+            </div>
+                <div class="form-group">
+
+
+                </div>
+
+                <input class="btn btn-success btn-xlarge" type="submit" value="Betalen" />
+
+        }
+
+    </div>
+</div>

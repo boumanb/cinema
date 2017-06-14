@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container text-center">
+    <h2>Welkom bij de Bioscoop.</h2>
+    <br /><br />
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="text-center col-md-6">
+            <img src="https://i.ytimg.com/vi/dU0buXCiBp0/maxresdefault.jpg" class="img-circle img-responsive" />
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <br /><br /><br />
+    <a href="@Url.Action("List", "Movie")"><div class="text-center btn btn-info buttonNav Movie-button">Films deze filmweek</div></a>
+</div>
+
+<asp:ListItem Text="Amit" Value="8"></asp:ListItem>
