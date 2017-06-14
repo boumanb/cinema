@@ -1,3 +1,7 @@
+This is a school project which I am further developing, it is possible that there is some Dutch language in the project.
+Feel free to ask me anything.
+You can contact me through my website, you can find my website in my bio.
+
 Accounts:
 	BackOffice:
 		Username: a@a.nl
@@ -12,5 +16,3 @@ Accounts:
 		Username: d@d.nl
 		Password: d
 
-This is a school project which I am further developing, it is possible that there is some Dutch language in the project.
-Feel free to ask me anything.
